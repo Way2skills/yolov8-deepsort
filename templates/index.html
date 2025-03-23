@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Marine Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="upload-card">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">
+                <i class="fas fa-water" style="color: var(--primary);"></i> MarineAI
+            </h1>
+            <p class="subtitle" style="color: #aaa; margin-bottom: 2rem;">
+                Detect marine life with AI-powered analysis
+            </p>
+
+            <form method="post" enctype="multipart/form-data" id="uploadForm">
+                <div class="upload-area" onclick="document.querySelector('input[type=file]').click()" id="dropZone">
+                    <div style="font-size: 4rem; color: var(--primary);">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Drag & Drop or Click to Upload</h3>
+                    <p style="color: #888;">Supported formats: JPG, PNG</p>
+                    <div id="uploadStatus" style="display: none; margin-top: 1rem;">
+                        <i class="fas fa-spinner fa-spin"></i> Processing image...
+                    </div>
+                </div>
+                
+                <input type="file" name="file" hidden required id="fileInput">
+                <button type="submit" class="btn" style="margin-top: 1.5rem;" id="submitBtn">
+                    <i class="fas fa-search"></i> Analyze Now
+                </button>
+            </form>
+
+            {% if error %}
+            <div class="error-message" style="color: #ff6b6b; margin-top: 1.5rem;">
+                <i class="fas fa-exclamation-triangle"></i> {{ error }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadStatus = document.getElementById('uploadStatus');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Show loading spinner on submit
+        uploadForm.addEventListener('submit', function(e) {
+            submitBtn.disabled = true;
+            document.querySelector('.loading').style.display = 'block';
+            uploadStatus.style.display = 'block';
+            dropZone.style.borderColor = getComputedStyle(document.documentElement)
+                .getPropertyValue('--primary');
+        });
+
+        // Drag & drop handling
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = getComputedStyle(document.documentElement)
+                .getPropertyValue('--accent');
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            dropZone.style.borderColor = getComputedStyle(document.documentElement)
+                .getPropertyValue('--primary');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileInput.files = e.dataTransfer.files;
+            handleFileSelection();
+        });
+
+        // File input change handler
+        fileInput.addEventListener('change', handleFileSelection);
+
+        function handleFileSelection() {
+            if (fileInput.files.length > 0) {
+                const fileName = fileInput.files[0].name;
+                dropZone.innerHTML = `
+                    <div style="color: var(--accent); font-size: 2rem;">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    <h3>${fileName}</h3>
+                    <p style="color: #888;">File ready for analysis</p>
+                `;
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
