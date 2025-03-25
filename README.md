@@ -2,12 +2,6 @@
 
 This repository provides access to two **YOLOv8 object detection models** for identifying **species** of interest in **underwater environments**.
 
-<p align="center">
-<img src="./assets/gif/results.gif" height="250"/>
-<img src="./assets/gif/turtle+fish-resized.gif" height="250"/>
-</p>
-
-
 
 ## 🐟 Species Scope
 
