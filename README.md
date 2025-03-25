@@ -43,11 +43,6 @@ The images used with annotations (YOLO format) can be downloaded using the follo
 
 You can download the trained models using the following links: [FishInv model](https://stpubtenakanclyw.blob.core.windows.net/marine-detect/models/FishInv.pt?sv=2022-11-02&ss=bf&srt=co&sp=rltf&se=2099-12-31T18:55:46Z&st=2025-02-03T10:55:46Z&spr=https,http&sig=w%2FTQzrECsYsjtkBXNnnuFtn%2BC06PkjgLxDgRw%2FaUUKI%3D), [MegaFauna model](https://stpubtenakanclyw.blob.core.windows.net/marine-detect/models/MegaFauna.pt?sv=2022-11-02&ss=bf&srt=co&sp=rltf&se=2099-12-31T18:55:46Z&st=2025-02-03T10:55:46Z&spr=https,http&sig=w%2FTQzrECsYsjtkBXNnnuFtn%2BC06PkjgLxDgRw%2FaUUKI%3D).
 
-### Performances on test sets
-
-> [!IMPORTANT]
-> Our models are currently undergoing enhancements for improved performance. More labeled images are on the way and will be used to retrain the models.
-
 <details>
 
 <summary>MegaFauna model performances</summary>
@@ -86,105 +81,27 @@ You can download the trained models using the following links: [FishInv model](h
 
 ## 🚗 Usage
 
+- flask app
+- CLI interface
+- live cam
+
 ### 🏁 Environment Setup
 
 There are 3 options to install the development environment.
 
-#### Option 1 - Developing Inside a Docker Container with Visual Studio Code's Dev Containers Extension (recommended):
 
-- If you are using Windows, make sure that Windows Subsytem for Linux is installed and working on your machine (to do so, follow the instructions [here](https://learn.microsoft.com/en-us/windows/wsl/install)).
-- Make sure Docker is installed on your machine.
-- Install the Dev Containers Extension in Visual Studio Code (*ms-vscode-remote.remote-containers*).
-- In VS Code, open the command palette (CTRL + SHIFT + P) and select *Dev Containers: Rebuild and Reopen in Container* (make sure Docker is running before executing this step). If the build seems to freeze, read the "Common Errors and Fixes" section below.
 
-Note that the Dockerfile was created for CPU machines. If you wish to use GPU for inference, you can change the base image to `nvidia/cuda:12.0.0-runtime-ubuntu22.04`.
-
-#### Option 2 - Developing on Your Host OS with Anaconda:
-
-- Make sure Conda is installed and working on your machine (to do so, click [here](https://www.anaconda.com/download)).
-- Then, run the following commands in the project directory:
-```shell
-conda create --name your_env_name python=3.10
-conda activate your_env_name
-pip install -r requirements.txt
-```
-
-#### Option 3 - Developing on Your Host OS with PIP:
+#### Developing on Your Host OS with PIP:
 
 - Make sure pyenv is installed and working
 - Then, run the following commands in the project directory:
 ```shell
-pyenv install 3.10
-pyenv local 3.10
-python -m venv venv
-source venv/bin/activate
+python -m venv env
+env\Scripts\activate
 pip install -r requirements.txt
+
+#use any one 
+python app.py #for flask app (image only)
+python interface.py #for cli interface (image , video )
+python live.py # for live camera
 ```
-
-### 🚀 Inference
-
-To make predictions on images or videos using the marine detection models, follow these simple steps:
-
-1. **Models Download**: Refer to the 'Model Details' section for information on the models.
-2. **Prediction Functions**: Utilize the following Python functions to generate predictions with bounding box annotations.
-
-```python
-from src.marine_detect.predict import predict_on_images, predict_on_video
-
-# Predict on a set of images using FishInv and MegaFauna models
-predict_on_images(
-    model_paths=["path/to/FishInv/model", "path/to/MegaFauna/model"],
-    confs_threshold=[0.522, 0.6],
-    images_input_folder_path="path/to/input/images",
-    images_output_folder_path="path/to/output/folder",
-)
-
-# Predict on a video using FishInv and MegaFauna models
-predict_on_video(
-    model_paths=["path/to/FishInv/model", "path/to/MegaFauna/model"],
-    confs_threshold=[0.522, 0.6],
-    input_video_path="path/to/input/video.mp4",
-    output_video_path="path/to/output/video.mp4",
-)
-```
-> [!NOTE]
-> The optimal confidence thresholds for the FishInv model and the MegaFauna model are 0.522 and 0.6, respectively.
-
-The resulting images or video files will have bounding boxes annotations, visually indicating the location and extent of the detected marine species within the original data. 
-
-For example:
-
-<p align="middle">
-  <img src="./assets/images/input_folder/regq.jpg" width="300" />
-  <img src="./assets/images/output_folder/regq.jpg" width="300" /> 
-</p>
-
-## 📚 References
-
-### Datasets
-
-- Ticon Dataset. (2023). Shark Dataset [ Open Source Dataset ]. In Roboflow Universe . Roboflow . https://universe.roboflow.com/ticon-dataset/shark-ibmby
-- Minhajul Arefin. (2021).  zebra_shark Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/minhajul-arefin/zebra_shark
-- Rizal Fadia Al Fikri. (2022).  shark_species Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/rizal-fadia-al-fikri/shark_species
-- Aya Abd-Elnaser. (2022).  SHARK Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/aya-abd-elnaser/shark-jatfb
-- Nomi. (2023).  seaturtle Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/nomi/seaturtle
-- Parvej Hosen. (2022).  Turtle Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/parvej-hosen/turtle-f9xgw
-- Seami New 5 Fishes. (2023).  EagleRay New Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/seami-new-5-fishes/eagleray-new
-- Le Wagon. (2023).  count-a-manta Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/le-wagon-w02yl/count-a-manta
-- Renaldo Rasfuldi. (2022).  fish_id_2 Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/renaldo-rasfuldi/fish_id_2
-- Universiti Teknologi Malaysia. (2023).  Giant Clam Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/universiti-teknologi-malaysia-juyvx/giant-clam
-- Universiti Teknologi Malaysia. (2023).  Tioman Giant Clams Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/universiti-teknologi-malaysia-juyvx/tioman-giant-clams
-- Jacob Solawetz. (2023).  Fish Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/roboflow-gw7yv/fish-yzfml
-- Dataset. (2022).  Dataset Dataset  [ Open Source Dataset ]. In  Roboflow Universe .  Roboflow . https://universe.roboflow.com/dataset-gdypo/dataset-axhm3
-- Addison Howard, W. K., Eunbyung Park. (2018). ImageNet Object Localization Challenge. Kaggle. https://kaggle.com/competitions/imagenet-object-localization-challenge
-- Australian Institute of Marine Science (AIMS), University of Western Australia (UWA) and Curtin University. (2019), OzFish Dataset - Machine learning dataset for Baited Remote Underwater Video Stations, https://doi.org/10.25845/5e28f062c5097
-- GBIF.org (09 January 2024) GBIF Occurrence Download  https://doi.org/10.15468/dl.w5xy62
-- GBIF.org (09 January 2024) GBIF Occurrence Download  https://doi.org/10.15468/dl.a5uwzp
-- GBIF.org (09 January 2024) GBIF Occurrence Download  https://doi.org/10.15468/dl.r5xqkc
-- GBIF.org (09 January 2024) GBIF Occurrence Download  https://doi.org/10.15468/dl.ug7n62
-- GBIF.org (19 December 2023) GBIF Occurrence Download  https://doi.org/10.15468/dl.32mwtb
-
-
-### Model
-
-- Jocher, G., Chaurasia, A., & Qiu, J. (2023). Ultralytics YOLO (Version 8.0.0) [Computer software]. https://github.com/ultralytics/ultralytics
