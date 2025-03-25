@@ -7,9 +7,7 @@ This repository provides access to two **YOLOv8 object detection models** for id
 <img src="./assets/gif/turtle+fish-resized.gif" height="250"/>
 </p>
 
-These models were developed in the context of the [Let's Revive](https://letsrevive.orange.com/technology-partner/) project in partnership with [Tēnaka](https://tenaka.org/). Tēnaka emphasizes impact measurement through Tēnaka Science, sharing monthly coral ecosystem data. To automate data collection, Orange Business and Tēnaka partner to deploy an underwater research station with cameras. The system uses AI to identify and quantify 17 species in coral areas, streamlining monitoring and allowing marine biologists more time for restoration.
 
-Images: @copyright Tēnaka
 
 ## 🐟 Species Scope
 
