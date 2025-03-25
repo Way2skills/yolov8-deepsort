@@ -88,6 +88,8 @@ There are 3 options to install the development environment.
 - Make sure pyenv is installed and working
 - Then, run the following commands in the project directory:
 ```shell
+git clone https://github.com/Way2skills/yolov8-deepsort.git
+
 python -m venv env
 env\Scripts\activate
 pip install -r requirements.txt
